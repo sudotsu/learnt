@@ -7,7 +7,7 @@ const CSS = `
   .item { display: flex; align-items: flex-start; gap: 10px; }
   .item:hover .del-btn { opacity: 1 !important; }
   .donot-pill:hover .del-btn { opacity: 1 !important; }
-  @media (max-width: 720px) {
+  @media (max-width: 860px) {
     .columns { grid-template-columns: 1fr !important; }
   }
 `;
@@ -29,7 +29,7 @@ function SectionHeader({
     }}>
       <div style={{
         fontFamily: "IBM Plex Mono, monospace",
-        fontSize: 10, fontWeight: 700, letterSpacing: "0.2em",
+        fontSize: 12, fontWeight: 700, letterSpacing: "0.16em",
         textTransform: "uppercase", color,
         display: "flex", alignItems: "center", gap: 8,
       }}>
@@ -45,10 +45,10 @@ function ItemCard({ item }: { item: Item }) {
   return (
     <div className="item" style={{
       background: "var(--s2)", borderRadius: 5,
-      padding: "11px 14px",
+      padding: "14px 18px",
       border: "1px solid rgba(255,255,255,0.04)",
     }}>
-      <p style={{ flex: 1, fontSize: 13.5, lineHeight: 1.62, color: "var(--tx)", fontWeight: 400 }}>
+      <p style={{ flex: 1, fontSize: 15, lineHeight: 1.65, color: "var(--tx)", fontWeight: 400 }}>
         {item.text}
       </p>
       <DeleteBtn type={item.type} id={item.id} />
@@ -61,9 +61,9 @@ function DonotPill({ item }: { item: Item }) {
     <div className="donot-pill" style={{
       background: "var(--rd)",
       border: "1px solid rgba(212,80,80,0.18)",
-      borderRadius: 4, padding: "6px 12px",
+      borderRadius: 4, padding: "8px 14px",
       fontFamily: "IBM Plex Mono, monospace",
-      fontSize: 11.5, color: "#E08080",
+      fontSize: 13, color: "#E08080",
       display: "flex", alignItems: "center", gap: 8,
     }}>
       <span>{item.text}</span>
@@ -89,7 +89,7 @@ export default async function HomePage() {
         display: "flex", alignItems: "center", justifyContent: "space-between",
       }}>
         <div style={{
-          fontFamily: "IBM Plex Mono, monospace", fontSize: 13, fontWeight: 700,
+          fontFamily: "IBM Plex Mono, monospace", fontSize: 15, fontWeight: 700,
           letterSpacing: "0.14em", textTransform: "uppercase", color: "var(--tx)",
           display: "flex", alignItems: "center", gap: 8,
         }}>
@@ -100,7 +100,7 @@ export default async function HomePage() {
           FIELD NOTES
         </div>
         <span style={{
-          fontFamily: "IBM Plex Mono, monospace", fontSize: 11,
+          fontFamily: "IBM Plex Mono, monospace", fontSize: 13,
           color: "var(--mu)", letterSpacing: "0.08em",
         }}>
           {total} {total === 1 ? "entry" : "entries"}
@@ -108,12 +108,12 @@ export default async function HomePage() {
       </header>
 
       {/* Content */}
-      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "28px clamp(16px,4vw,48px) 80px" }}>
+      <div style={{ maxWidth: 1600, margin: "0 auto", padding: "32px clamp(20px,3vw,56px) 80px" }}>
 
         {/* Two columns */}
         <div className="columns" style={{
           display: "grid", gridTemplateColumns: "1fr 1fr",
-          gap: 12, marginBottom: 12,
+          gap: 16, marginBottom: 16,
         }}>
 
           {/* MUST KNOW */}
@@ -121,7 +121,7 @@ export default async function HomePage() {
             <SectionHeader label="Must Know / Need To Do" color="var(--g)">
               <AddForm type="must" />
             </SectionHeader>
-            <div style={{ padding: 12, display: "flex", flexDirection: "column", gap: 6, minHeight: 60 }}>
+            <div style={{ padding: 14, display: "flex", flexDirection: "column", gap: 8, minHeight: 60 }}>
               {data.must.length ? data.must.map(item => <ItemCard key={item.id} item={item} />) : (
                 <p style={{ fontFamily: "IBM Plex Mono, monospace", fontSize: 11, color: "var(--dim)", textAlign: "center", padding: 20 }}>Nothing yet.</p>
               )}
@@ -133,7 +133,7 @@ export default async function HomePage() {
             <SectionHeader label="Nice To Have / Remember" color="var(--a)">
               <AddForm type="nice" />
             </SectionHeader>
-            <div style={{ padding: 12, display: "flex", flexDirection: "column", gap: 6, minHeight: 60 }}>
+            <div style={{ padding: 14, display: "flex", flexDirection: "column", gap: 8, minHeight: 60 }}>
               {data.nice.length ? data.nice.map(item => <ItemCard key={item.id} item={item} />) : (
                 <p style={{ fontFamily: "IBM Plex Mono, monospace", fontSize: 11, color: "var(--dim)", textAlign: "center", padding: 20 }}>Nothing yet.</p>
               )}
