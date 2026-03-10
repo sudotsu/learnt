@@ -6,8 +6,7 @@ import type { Item } from "@/lib/types";
 const CSS = `
   .item { display: flex; align-items: flex-start; gap: 10px; }
   .item:hover .del-btn { opacity: 1 !important; }
-  .donot-pill:hover .del-btn { opacity: 1 !important; }
-  @media (max-width: 860px) {
+  @media (max-width: 900px) {
     .columns { grid-template-columns: 1fr !important; }
   }
 `;
@@ -56,18 +55,18 @@ function ItemCard({ item }: { item: Item }) {
   );
 }
 
-function DonotPill({ item }: { item: Item }) {
+function DonotCard({ item }: { item: Item }) {
   return (
-    <div className="donot-pill" style={{
-      background: "var(--rd)",
-      border: "1px solid rgba(212,80,80,0.18)",
-      borderRadius: 4, padding: "8px 14px",
-      fontFamily: "IBM Plex Mono, monospace",
-      fontSize: 13, color: "#E08080",
-      display: "flex", alignItems: "center", gap: 8,
+    <div className="item" style={{
+      background: "var(--s2)", borderRadius: 5,
+      padding: "14px 18px",
+      border: "1px solid rgba(212,80,80,0.1)",
+      borderLeft: "2px solid rgba(212,80,80,0.4)",
     }}>
-      <span>{item.text}</span>
-      <DeleteBtn type="donot" id={item.id} />
+      <p style={{ flex: 1, fontSize: 15, lineHeight: 1.65, color: "#E08080", fontWeight: 400 }}>
+        {item.text}
+      </p>
+      <DeleteBtn type={item.type} id={item.id} />
     </div>
   );
 }
@@ -108,12 +107,12 @@ export default async function HomePage() {
       </header>
 
       {/* Content */}
-      <div style={{ maxWidth: 1600, margin: "0 auto", padding: "32px clamp(20px,3vw,56px) 80px" }}>
+      <div style={{ width: "min(96vw, 2000px)", margin: "0 auto", padding: "32px clamp(20px,2vw,40px) 80px" }}>
 
-        {/* Two columns */}
+        {/* Three columns */}
         <div className="columns" style={{
-          display: "grid", gridTemplateColumns: "1fr 1fr",
-          gap: 16, marginBottom: 16,
+          display: "grid", gridTemplateColumns: "1fr 1fr 1fr",
+          gap: 16, alignItems: "start",
         }}>
 
           {/* MUST KNOW */}
@@ -139,18 +138,19 @@ export default async function HomePage() {
               )}
             </div>
           </div>
-        </div>
 
-        {/* DO NOT */}
-        <div style={{ background: "var(--s1)", borderRadius: 8, overflow: "hidden" }}>
-          <SectionHeader label="Do Not" color="var(--r)">
-            <AddForm type="donot" />
-          </SectionHeader>
-          <div style={{ padding: "12px 16px 16px", display: "flex", flexWrap: "wrap", gap: 8 }}>
-            {data.donot.length ? data.donot.map(item => <DonotPill key={item.id} item={item} />) : (
-              <p style={{ fontFamily: "IBM Plex Mono, monospace", fontSize: 11, color: "var(--dim)", padding: "8px 4px" }}>None yet.</p>
-            )}
+          {/* DO NOT */}
+          <div style={{ background: "var(--s1)", borderRadius: 8, overflow: "hidden" }}>
+            <SectionHeader label="Do Not" color="var(--r)">
+              <AddForm type="donot" />
+            </SectionHeader>
+            <div style={{ padding: 14, display: "flex", flexDirection: "column", gap: 8, minHeight: 60 }}>
+              {data.donot.length ? data.donot.map(item => <DonotCard key={item.id} item={item} />) : (
+                <p style={{ fontFamily: "IBM Plex Mono, monospace", fontSize: 11, color: "var(--dim)", textAlign: "center", padding: 20 }}>Nothing yet.</p>
+              )}
+            </div>
           </div>
+
         </div>
       </div>
     </main>
