@@ -6,8 +6,9 @@ export function middleware(request: NextRequest) {
 
   if (pathname === "/login") return NextResponse.next();
 
+  const passcode = process.env.APP_PASSCODE;
   const auth = request.cookies.get("fn_auth")?.value;
-  if (auth !== process.env.APP_PASSCODE) {
+  if (!passcode || auth !== passcode) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
