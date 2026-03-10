@@ -14,9 +14,9 @@ export default function DeleteBtn({ type, id }: { type: ItemType; id: string }) 
       title="Remove"
       style={{
         background: "none", border: "none", cursor: "pointer",
-        color: "var(--dim)", fontSize: 16, lineHeight: 1,
+        color: "var(--mu)", fontSize: 16, lineHeight: 1,
         padding: "0 2px", flexShrink: 0,
-        transition: "color 0.12s", opacity: 0,
+        transition: "color 0.12s, opacity 0.12s", opacity: 0.35,
       }}
       className="del-btn"
     >

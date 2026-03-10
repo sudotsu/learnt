@@ -11,4 +11,5 @@ export interface Data {
   must: Item[];
   nice: Item[];
   donot: Item[];
+  lastDeleted?: Item | null;
 }

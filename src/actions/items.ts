@@ -90,7 +90,19 @@ export async function addItem(type: ItemType, text: string): Promise<void> {
 
 export async function deleteItem(type: ItemType, id: string): Promise<void> {
   const data = await getItems();
+  const item = data[type].find((i) => i.id === id);
   data[type] = data[type].filter((i) => i.id !== id);
+  data.lastDeleted = item ?? null;
+  await redis.set(KEY, data);
+  revalidatePath("/");
+}
+
+export async function undoDelete(): Promise<void> {
+  const data = await getItems();
+  if (!data.lastDeleted) return;
+  const item = data.lastDeleted;
+  data[item.type].push(item);
+  data.lastDeleted = null;
   await redis.set(KEY, data);
   revalidatePath("/");
 }

@@ -1,11 +1,12 @@
 import { getItems } from "@/actions/items";
 import AddForm from "./_components/AddForm";
 import DeleteBtn from "./_components/DeleteBtn";
+import UndoBtn from "./_components/UndoBtn";
 import type { Item } from "@/lib/types";
 
 const CSS = `
   .item { display: flex; align-items: flex-start; gap: 10px; }
-  .item:hover .del-btn { opacity: 1 !important; }
+  .item:hover .del-btn { opacity: 1 !important; color: var(--r) !important; }
   @media (max-width: 900px) {
     .columns { grid-template-columns: 1fr !important; }
   }
@@ -74,6 +75,7 @@ function DonotCard({ item }: { item: Item }) {
 export default async function HomePage() {
   const data = await getItems();
   const total = data.must.length + data.nice.length + data.donot.length;
+  const hasUndo = !!data.lastDeleted;
 
   return (
     <main>
@@ -98,12 +100,15 @@ export default async function HomePage() {
           }} />
           FIELD NOTES
         </div>
-        <span style={{
-          fontFamily: "IBM Plex Mono, monospace", fontSize: 13,
-          color: "var(--mu)", letterSpacing: "0.08em",
-        }}>
-          {total} {total === 1 ? "entry" : "entries"}
-        </span>
+        <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+          <UndoBtn hasUndo={hasUndo} />
+          <span style={{
+            fontFamily: "IBM Plex Mono, monospace", fontSize: 13,
+            color: "var(--mu)", letterSpacing: "0.08em",
+          }}>
+            {total} {total === 1 ? "entry" : "entries"}
+          </span>
+        </div>
       </header>
 
       {/* Content */}
