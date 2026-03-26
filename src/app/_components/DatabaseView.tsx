@@ -29,6 +29,7 @@ function filterItems(items: Item[], query: string): Item[] {
 
 function NewGroupForm() {
   const [open, setOpen] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [pending, startTransition] = useTransition();
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -36,10 +37,15 @@ function NewGroupForm() {
     e.preventDefault();
     const name = inputRef.current?.value.trim();
     if (!name) return;
+    setError(null);
     startTransition(async () => {
-      await addGroup(name);
-      if (inputRef.current) inputRef.current.value = "";
-      setOpen(false);
+      try {
+        await addGroup(name);
+        if (inputRef.current) inputRef.current.value = "";
+        setOpen(false);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "Failed to create group.");
+      }
     });
   }
 
@@ -62,33 +68,36 @@ function NewGroupForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} style={{ display: "flex", gap: 6, alignItems: "center", padding: "4px 0" }}>
-      <input
-        ref={inputRef}
-        placeholder="Group name..."
-        onKeyDown={e => e.key === "Escape" && setOpen(false)}
-        style={{
-          flex: 1, background: "var(--bg)",
-          border: "1px solid rgba(255,255,255,0.1)",
-          borderRadius: 4, padding: "5px 10px",
-          fontFamily: "var(--mono)", fontSize: 11,
-          color: "var(--tx)", outline: "none",
-        }}
-      />
-      <button type="submit" disabled={pending} style={{
-        background: "none", border: "none", cursor: "pointer",
-        fontFamily: "var(--mono)", fontSize: 13, color: "var(--g)",
-        opacity: pending ? 0.4 : 1,
-      }}>
-        {pending ? "·" : "✓"}
-      </button>
-      <button type="button" onClick={() => setOpen(false)} style={{
-        background: "none", border: "none", cursor: "pointer",
-        fontSize: 16, color: "var(--mu)",
-      }}>
-        ×
-      </button>
-    </form>
+    <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+      <form onSubmit={handleSubmit} style={{ display: "flex", gap: 6, alignItems: "center", padding: "4px 0" }}>
+        <input
+          ref={inputRef}
+          placeholder="Group name..."
+          onKeyDown={e => e.key === "Escape" && setOpen(false)}
+          style={{
+            flex: 1, background: "var(--bg)",
+            border: "1px solid rgba(255,255,255,0.1)",
+            borderRadius: 4, padding: "5px 10px",
+            fontFamily: "var(--mono)", fontSize: 11,
+            color: "var(--tx)", outline: "none",
+          }}
+        />
+        <button type="submit" disabled={pending} style={{
+          background: "none", border: "none", cursor: "pointer",
+          fontFamily: "var(--mono)", fontSize: 13, color: "var(--g)",
+          opacity: pending ? 0.4 : 1,
+        }}>
+          {pending ? "·" : "✓"}
+        </button>
+        <button type="button" onClick={() => setOpen(false)} style={{
+          background: "none", border: "none", cursor: "pointer",
+          fontSize: 16, color: "var(--mu)",
+        }}>
+          ×
+        </button>
+      </form>
+      {error && <p style={{ fontFamily: "var(--mono)", fontSize: 10, color: "var(--r)", paddingLeft: 4 }}>{error}</p>}
+    </div>
   );
 }
 
@@ -117,7 +126,8 @@ function Column({
         background: "var(--s1)",
         padding: "14px 16px 12px",
         borderBottom: "1px solid rgba(255,255,255,0.05)",
-        display: "flex", alignItems: "center", justifyContent: "space-between",
+        display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between",
+        gap: 4,
       }}>
         <div style={{
           fontFamily: "IBM Plex Mono, monospace",

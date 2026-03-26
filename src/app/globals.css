@@ -27,3 +27,17 @@ body {
 }
 
 .mono { font-family: 'IBM Plex Mono', 'Courier New', monospace; }
+
+/* Accordion animation */
+.accordion-body {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.18s ease;
+}
+.accordion-body.open {
+  grid-template-rows: 1fr;
+}
+.accordion-body > .accordion-inner {
+  overflow: hidden;
+  min-height: 0;
+}

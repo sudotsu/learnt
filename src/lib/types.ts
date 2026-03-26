@@ -14,10 +14,7 @@ export interface GroupDef {
   subgroups: string[];
 }
 
-export interface Data {
-  must: Item[];
-  nice: Item[];
-  donot: Item[];
+export interface Data extends Record<ItemType, Item[]> {
   groups: GroupDef[];
-  lastDeleted?: Item | null;
+  lastDeleted?: Item;
 }
