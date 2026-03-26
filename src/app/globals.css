@@ -1,18 +1,19 @@
 @import "tailwindcss";
 
 :root {
-  --bg:  #07090A;
-  --s1:  #0D1010;
-  --s2:  #111514;
-  --tx:  #E0DDD5;
-  --mu:  #6A6660;
-  --dim: #2E302E;
-  --g:   #00B85C;
-  --gd:  rgba(0,184,92,0.12);
-  --a:   #F0A500;
-  --ad:  rgba(240,165,0,0.12);
-  --r:   #D45050;
-  --rd:  rgba(212,80,80,0.10);
+  --bg:   #07090A;
+  --s1:   #0D1010;
+  --s2:   #111514;
+  --tx:   #E0DDD5;
+  --mu:   #7A7670;
+  --dim:  #484A48;
+  --g:    #00B85C;
+  --gd:   rgba(0,184,92,0.12);
+  --a:    #F0A500;
+  --ad:   rgba(240,165,0,0.12);
+  --r:    #D45050;
+  --rd:   rgba(212,80,80,0.10);
+  --mono: 'IBM Plex Mono', 'Courier New', monospace;
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
